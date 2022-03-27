@@ -72,6 +72,14 @@ class SinglyLinkedList<T> {
     return this;
   }
 
+  shift(): SinglyLinkedList<T> {
+    if (this._length === 0) return this;
+    let current = this.head;
+    this.head = current!.next;
+    this._length--;
+    return this;
+  }
+
   print() {
     let str = "";
     let current = this.head;
@@ -85,7 +93,7 @@ class SinglyLinkedList<T> {
 }
 
 var list = new SinglyLinkedList();
-list.push(3).push("Omar").push(19).push(1998).pop().pop().pop().pop().pop();
+list.push(3).push("Omar").push(19).push(1998).pop().shift();
 list.print();
 console.log(list.length);
 console.log(list);
