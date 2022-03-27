@@ -54,17 +54,30 @@ class DoublyLinkedList<T> {
     if (this.length === 0) {
       this.head = newNode;
       this.tail = newNode;
-      this._length++;
+    } else {
+      this.tail!.next = newNode;
+      newNode.prev = this.tail;
+      this.tail = newNode;
     }
-    this.tail!.next = newNode;
-    newNode.prev = this.tail;
-    this.tail = newNode;
     this._length++;
     return this;
   }
 
+  pop(): DoublyLinkedList<T> {
+    if (this.length <= 1) {
+      this.head = null;
+      this.tail = null;
+      this._length = 0;
+      return this;
+    }
+    this.tail = this.tail!.prev;
+    this.tail!.next = null;
+    this._length--;
+    return this;
+  }
+
   print() {
-    let str = "";
+    let str = "null <-> ";
     let current = this.head;
     while (current) {
       str += current.value + " <-> ";
@@ -76,5 +89,6 @@ class DoublyLinkedList<T> {
 }
 
 let list = new DoublyLinkedList();
-list.push(1).push(2).push(3);
+list.push(1).push(2).push(3).pop().pop();
 list.print();
+console.log(list.length);
