@@ -1,13 +1,91 @@
-let names = ["Omar", "Michael", "Melissa"];
-let values = [true, {}, [], 2, "awesome"];
+class SinglyNode<T> {
+  private _next: SinglyNode<T> | null;
+  public get next(): SinglyNode<T> | null {
+    return this._next;
+  }
+  public set next(v: SinglyNode<T> | null) {
+    this._next = v;
+  }
 
-console.log(names[0]); // O(1) (access element)
-console.log(names.find((value) => value === "Omar")); // O(n) (search element)
-console.log(names.push("Raj")); // O(1) (add last element)
-console.log(names.unshift("Yasser")); // O(n) replace all next indices (add first element)
-console.log(names.pop()); // O(1) (remove last element)
-console.log(names.shift()); // O(n) replace all next indices (remove first element)
-console.log(names.concat(["Hi", "There"])); // O(n) (concat other elements)
-console.log(names.slice(1, 3)); // O(n) (take a copy slice from array)
-console.log(names.splice(0, 1)); // O(n) (removes element from start index to delete count and return the deleted elements)
-console.log(names.sort((a, b) => a.localeCompare(b))); // O(n log(n)) (sort an array on a given condition)
+  constructor(public value: T) {
+    this.next = null;
+  }
+}
+
+class SinglyLinkedList<T> {
+  private _head: SinglyNode<T> | null;
+  public get head(): SinglyNode<T> | null {
+    return this._head;
+  }
+  public set head(v: SinglyNode<T> | null) {
+    this._head = v;
+  }
+
+  private _tail: SinglyNode<T> | null;
+  public get tail(): SinglyNode<T> | null {
+    return this._tail;
+  }
+  public set tail(v: SinglyNode<T> | null) {
+    this._tail = v;
+  }
+
+  private _length: number;
+  public get length(): number {
+    return this._length;
+  }
+
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this._length = 0;
+  }
+
+  push(value: T): SinglyLinkedList<T> {
+    let newNode = new SinglyNode(value);
+    if (this.length === 0) {
+      this.head = newNode;
+      this.tail = newNode;
+    } else {
+      this.tail!.next = newNode;
+      this.tail = newNode;
+    }
+    this._length++;
+    return this;
+  }
+
+  pop(): SinglyLinkedList<T> {
+    if (this.length <= 1) {
+      this.head = null;
+      this.tail = null;
+      this._length = 0;
+      return this;
+    }
+    let current = this.head;
+    let newTail = current;
+    while (current?.next) {
+      newTail = current;
+      current = current.next;
+    }
+    this.tail = newTail;
+    this.tail!.next = null;
+    this._length--;
+    return this;
+  }
+
+  print() {
+    let str = "";
+    let current = this.head;
+    while (current) {
+      str += current.value + " -> ";
+      current = current.next;
+    }
+    str += "null";
+    console.log(str);
+  }
+}
+
+var list = new SinglyLinkedList();
+list.push(3).push("Omar").push(19).push(1998).pop().pop().pop().pop().pop();
+list.print();
+console.log(list.length);
+console.log(list);
