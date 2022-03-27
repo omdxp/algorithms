@@ -1,15 +1,21 @@
-function logAtLeast5(n: number) {
-  for (let i = 1; i <= Math.max(n, 5); i++) {
-    console.log(i);
+function sum(arr: number[]) {
+  let total = 0;
+  for (let i = 0; i < arr.length; i++) {
+    total += arr[i];
   }
+  return total;
 }
 
-logAtLeast5(1); // O(n)
+sum([1, 2, 3]); // O(1) space!
 
-function logAtMost5(n: number) {
-  for (let i = 1; i <= Math.min(n, 5); i++) {
-    console.log(i);
+function double(arr: number[]) {
+  let newArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    newArr.push(2 * arr[i]);
   }
+  return newArr;
 }
 
-logAtMost5(30); // O(1)
+double([1, 2, 3]); // O(n) space!
+
+// auxiliary space: only the space taken by the algorithm not including inputs
