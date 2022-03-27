@@ -1,13 +1,9 @@
-function countUpAndDown(n: number) {
-  console.log("Going up!");
+function printAllPairs(n: number) {
   for (let i = 0; i < n; i++) {
-    console.log(i);
+    for (let j = 0; j < n; j++) {
+      console.log(i, j);
+    }
   }
-  console.log("At the top!\nGoing down...");
-  for (let j = n - 1; j >= 0; j--) {
-    console.log(j);
-  }
-  console.log("Back down. Bye!");
 }
 
-countUpAndDown(10); // O(n)
+printAllPairs(10); // O(n^2)
