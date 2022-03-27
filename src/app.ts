@@ -76,6 +76,19 @@ class DoublyLinkedList<T> {
     return this;
   }
 
+  shift(): DoublyLinkedList<T> {
+    if (this.length <= 1) {
+      this.head = null;
+      this.tail = null;
+      this._length = 0;
+      return this;
+    }
+    this.head = this.head!.next;
+    this.head!.prev = null;
+    this._length--;
+    return this;
+  }
+
   print() {
     let str = "null <-> ";
     let current = this.head;
@@ -89,6 +102,6 @@ class DoublyLinkedList<T> {
 }
 
 let list = new DoublyLinkedList();
-list.push(1).push(2).push(3).pop().pop();
+list.push(1).push(2).push(3).pop().shift().shift();
 list.print();
 console.log(list.length);
