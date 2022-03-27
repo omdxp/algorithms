@@ -128,6 +128,27 @@ class DoublyLinkedList<T> {
     return foundNode;
   }
 
+  insert(index: number, value: T): DoublyNode<T> | null {
+    if (index < 0 || index >= this.length) return null;
+    if (index === 0) {
+      this.unshift(value);
+      return new DoublyNode(value);
+    }
+    if (index === this.length) {
+      this.push(value);
+      return new DoublyNode(value);
+    }
+    let beforeNode = this.get(index - 1);
+    let newNode = new DoublyNode(value);
+    let afterNode = beforeNode!.next;
+    beforeNode!.next = newNode;
+    newNode.prev = beforeNode;
+    newNode.next = afterNode;
+    afterNode!.prev = newNode;
+    this._length++;
+    return newNode;
+  }
+
   print() {
     let str = "null <-> ";
     let current = this.head;
@@ -143,6 +164,7 @@ class DoublyLinkedList<T> {
 let list = new DoublyLinkedList();
 list.push(1).push(2).push(3).push(4);
 list.set(1, 500);
+list.insert(1, 401);
 list.print();
 console.log(list.length);
 console.log(list.get(2)?.value);
