@@ -137,6 +137,23 @@ class SinglyLinkedList<T> {
     return true;
   }
 
+  remove(index: number) {
+    if (index < 0 || index >= this.length) return false;
+    if (index === this.length - 1) {
+      this.pop();
+      return true;
+    }
+    if (index === 0) {
+      this.shift();
+      return true;
+    }
+
+    let prev = this.get(index - 1);
+    prev!.next = prev!.next!.next;
+    this._length--;
+    return true;
+  }
+
   print() {
     let str = "";
     let current = this.head;
@@ -153,6 +170,7 @@ var list = new SinglyLinkedList();
 list.push(3).push("Omar").push(19).push(1998).pop().shift().unshift("Yasser");
 list.set(1, "hello");
 list.insert(1, "Omar");
+list.remove(2);
 list.print();
 console.log(list.length);
 
