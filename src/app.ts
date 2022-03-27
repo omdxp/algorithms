@@ -1,18 +1,13 @@
-function addUpTo(n: number) {
-  let sum = 0;
-  for (let i = 1; i <= n; i++) {
-    sum += i;
+function countUpAndDown(n: number) {
+  console.log("Going up!");
+  for (let i = 0; i < n; i++) {
+    console.log(i);
   }
-  return sum;
+  console.log("At the top!\nGoing down...");
+  for (let j = n - 1; j >= 0; j--) {
+    console.log(j);
+  }
+  console.log("Back down. Bye!");
 }
 
-function addUpTo2(n: number) {
-  return (n * (n + 1)) / 2;
-}
-
-console.time("addUpTo");
-console.log(addUpTo(1000000));
-console.timeEnd("addUpTo");
-console.time("addUpTo2");
-console.log(addUpTo2(1000000));
-console.timeEnd("addUpTo2");
+countUpAndDown(10); // O(n)
