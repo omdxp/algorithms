@@ -89,6 +89,18 @@ class DoublyLinkedList<T> {
     return this;
   }
 
+  unshift(value: T): DoublyLinkedList<T> {
+    let newNode = new DoublyNode(value);
+    if (this.length === 0) {
+      return this.push(value);
+    }
+    this.head!.prev = newNode;
+    newNode.next = this.head;
+    this.head = newNode;
+    this._length++;
+    return this;
+  }
+
   print() {
     let str = "null <-> ";
     let current = this.head;
@@ -102,6 +114,14 @@ class DoublyLinkedList<T> {
 }
 
 let list = new DoublyLinkedList();
-list.push(1).push(2).push(3).pop().shift().shift();
+list
+  .push(1)
+  .push(2)
+  .push(3)
+  .pop()
+  .shift()
+  .shift()
+  .unshift("hello")
+  .unshift("world");
 list.print();
-console.log(list.length);
+console.log(list.tail);
