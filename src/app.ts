@@ -101,6 +101,26 @@ class DoublyLinkedList<T> {
     return this;
   }
 
+  get(index: number): DoublyNode<T> | null {
+    if (index < 0 || index >= this.length) return null;
+    if (index <= this.length / 2) {
+      let counter = 0;
+      var current = this.head;
+      while (counter !== index) {
+        current = current!.next;
+        counter++;
+      }
+    } else {
+      let counter = this.length - 1;
+      var current = this.tail;
+      while (counter !== index) {
+        current = current!.prev;
+        counter--;
+      }
+    }
+    return current;
+  }
+
   print() {
     let str = "null <-> ";
     let current = this.head;
@@ -114,14 +134,7 @@ class DoublyLinkedList<T> {
 }
 
 let list = new DoublyLinkedList();
-list
-  .push(1)
-  .push(2)
-  .push(3)
-  .pop()
-  .shift()
-  .shift()
-  .unshift("hello")
-  .unshift("world");
+list.push(1).push(2).push(3).push(4);
 list.print();
-console.log(list.tail);
+console.log(list.length);
+console.log(list.get(2)?.value);
