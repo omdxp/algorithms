@@ -97,6 +97,17 @@ class SinglyLinkedList<T> {
     return this;
   }
 
+  get(index: number): SinglyNode<T> | null {
+    if (index < 0 || index >= this.length) return null;
+    let counter = 0;
+    let current = this.head;
+    while (counter !== index) {
+      current = current!.next;
+      counter++;
+    }
+    return current;
+  }
+
   print() {
     let str = "";
     let current = this.head;
@@ -113,4 +124,4 @@ var list = new SinglyLinkedList();
 list.push(3).push("Omar").push(19).push(1998).pop().shift().unshift("Yasser");
 list.print();
 console.log(list.length);
-console.log(list);
+console.log(list.get(-1)?.value);
