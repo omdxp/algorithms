@@ -108,6 +108,15 @@ class SinglyLinkedList<T> {
     return current;
   }
 
+  set(index: number, value: T) {
+    let foundNode = this.get(index);
+    if (foundNode) {
+      foundNode.value = value;
+      return true;
+    }
+    return false;
+  }
+
   print() {
     let str = "";
     let current = this.head;
@@ -122,6 +131,8 @@ class SinglyLinkedList<T> {
 
 var list = new SinglyLinkedList();
 list.push(3).push("Omar").push(19).push(1998).pop().shift().unshift("Yasser");
+list.set(1, "hello");
 list.print();
 console.log(list.length);
+
 console.log(list.get(-1)?.value);
