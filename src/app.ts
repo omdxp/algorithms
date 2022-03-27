@@ -73,10 +73,27 @@ class SinglyLinkedList<T> {
   }
 
   shift(): SinglyLinkedList<T> {
-    if (this._length === 0) return this;
+    if (this._length === 0) {
+      this.tail = null;
+      return this;
+    }
     let current = this.head;
     this.head = current!.next;
     this._length--;
+    return this;
+  }
+
+  unshift(value: T): SinglyLinkedList<T> {
+    let newNode = new SinglyNode(value);
+    if (this.length === 0) {
+      this.head = newNode;
+      this.tail = newNode;
+      this._length++;
+      return this;
+    }
+    newNode.next = this.head;
+    this.head = newNode;
+    this._length++;
     return this;
   }
 
@@ -93,7 +110,7 @@ class SinglyLinkedList<T> {
 }
 
 var list = new SinglyLinkedList();
-list.push(3).push("Omar").push(19).push(1998).pop().shift();
+list.push(3).push("Omar").push(19).push(1998).pop().shift().unshift("Yasser");
 list.print();
 console.log(list.length);
 console.log(list);
