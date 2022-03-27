@@ -121,6 +121,13 @@ class DoublyLinkedList<T> {
     return current;
   }
 
+  set(index: number, value: T): DoublyNode<T> | null {
+    let foundNode = this.get(index);
+    if (foundNode === null) return null;
+    foundNode.value = value;
+    return foundNode;
+  }
+
   print() {
     let str = "null <-> ";
     let current = this.head;
@@ -135,6 +142,7 @@ class DoublyLinkedList<T> {
 
 let list = new DoublyLinkedList();
 list.push(1).push(2).push(3).push(4);
+list.set(1, 500);
 list.print();
 console.log(list.length);
 console.log(list.get(2)?.value);
