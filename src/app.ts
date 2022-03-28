@@ -118,11 +118,23 @@ class BinarySearchTree<T> {
     })(this.root);
     return visited;
   }
+
+  depthFirstSearchPostOrder(): Array<BinaryNode<T>> {
+    if (this.root === null) return [];
+    let visited: Array<BinaryNode<T>> = [];
+    (function traverse(node: BinaryNode<T>) {
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+      visited.push(node);
+    })(this.root);
+    return visited;
+  }
 }
 
 let tree = new BinarySearchTree();
 
-tree.insert(10)?.insert(5)?.insert(3)?.insert(15)?.insert(20)?.insert(5);
+tree.insert(10)?.insert(6)?.insert(3)?.insert(8)?.insert(15)?.insert(20);
 
 console.log(tree.breadthFirstSearch().map((el) => el.value));
 console.log(tree.depthFirstSearchPreOrder().map((el) => el.value));
+console.log(tree.depthFirstSearchPostOrder().map((el) => el.value));
