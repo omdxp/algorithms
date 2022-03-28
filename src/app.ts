@@ -54,6 +54,18 @@ class Stack<T> {
     return ++this._size;
   }
 
+  pop(): number | null {
+    if (this.size === 0) return null;
+    if (this.size === 1) {
+      this.first = null;
+      this.last = null;
+    } else {
+      let temp = this.first;
+      this.first = temp!.next;
+    }
+    return --this._size;
+  }
+
   print() {
     let current = this.first;
     while (current) {
@@ -68,5 +80,9 @@ let stack = new Stack(); // LIFO
 stack.push(1);
 stack.push(2);
 stack.push(3);
+stack.pop();
+stack.pop();
+stack.pop();
+stack.pop();
 stack.print();
 console.log(stack);
