@@ -1,25 +1,73 @@
-let queue = [];
+class SinglyNode<T> {
+  private _next: SinglyNode<T> | null;
+  public get next(): SinglyNode<T> | null {
+    return this._next;
+  }
+  public set next(v: SinglyNode<T> | null) {
+    this._next = v;
+  }
 
-queue.push(1);
-queue.push(2);
-queue.push(3);
+  constructor(public value: T) {
+    this.value = value;
+  }
+}
 
-console.log(queue);
+class Queue<T> {
+  private _head: SinglyNode<T> | null;
+  public get head(): SinglyNode<T> | null {
+    return this._head;
+  }
+  public set head(v: SinglyNode<T> | null) {
+    this._head = v;
+  }
 
-queue.shift();
-queue.shift();
-queue.shift();
+  private _tail: SinglyNode<T> | null;
+  public get tail(): SinglyNode<T> | null {
+    return this._tail;
+  }
+  public set tail(v: SinglyNode<T> | null) {
+    this._tail = v;
+  }
 
-console.log(queue);
+  private _size: number;
+  public get size(): number {
+    return this._size;
+  }
 
-queue.unshift("first");
-queue.unshift("second");
-queue.unshift("third");
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this._size = 0;
+  }
 
-console.log(queue);
+  enqueue(value: T): SinglyNode<T> | null {
+    let newNode = new SinglyNode(value);
+    if (this.size === 0) {
+      this.head = newNode;
+      this.tail = newNode;
+    } else {
+      this.tail!.next = newNode;
+      this.tail = newNode;
+    }
+    this._size++;
+    return newNode;
+  }
 
-queue.pop();
-queue.pop();
-queue.pop();
+  print() {
+    let str = " -> ";
+    let current = this.head;
+    while (current) {
+      str += current.value + " -> ";
+      current = current.next;
+    }
+    str += "null";
+    console.log(str);
+  }
+}
 
-console.log(queue);
+let queue = new Queue();
+
+queue.enqueue("First");
+queue.enqueue("Second");
+queue.print();
+console.log(queue.size);
