@@ -53,6 +53,17 @@ class Queue<T> {
     return newNode;
   }
 
+  dequeue(): SinglyNode<T> | null {
+    if (this.size === 0) return null;
+    let removedNode = this.head;
+    if (removedNode === this.tail) {
+      this.tail = null;
+    }
+    this.head = this.head!.next;
+    this._size--;
+    return removedNode;
+  }
+
   print() {
     let str = " -> ";
     let current = this.head;
@@ -69,5 +80,6 @@ let queue = new Queue();
 
 queue.enqueue("First");
 queue.enqueue("Second");
+queue.dequeue();
 queue.print();
 console.log(queue.size);
