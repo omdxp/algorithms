@@ -66,6 +66,16 @@ class Stack<T> {
     return --this._size;
   }
 
+  get(index: number): SinglyNode<T> | null {
+    if (index < 0 || index >= this.size) return null;
+    if (index === 0) return this.first;
+    if (index === this.size - 1) return this.last;
+    let current = this.first;
+    let counter = 0;
+    while (counter <= index) current = current!.next;
+    return current;
+  }
+
   print() {
     let current = this.first;
     while (current) {
@@ -81,8 +91,7 @@ stack.push(1);
 stack.push(2);
 stack.push(3);
 stack.pop();
-stack.pop();
-stack.pop();
-stack.pop();
 stack.print();
+console.log("--", stack.get(1)?.value);
+
 console.log(stack);
