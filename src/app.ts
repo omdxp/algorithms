@@ -63,6 +63,34 @@ class BinarySearchTree<T> {
     }
     return this;
   }
+
+  contains(value: T): boolean {
+    let current = this.root;
+    while (current) {
+      if (value > current.value) {
+        current = current.right;
+      } else if (value < current.value) {
+        current = current.left;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  find(value: T): BinaryNode<T> | null {
+    let current = this.root;
+    while (current) {
+      if (value > current.value) {
+        current = current.right;
+      } else if (value < current.value) {
+        current = current.left;
+      } else {
+        return current;
+      }
+    }
+    return null;
+  }
 }
 
 let tree = new BinarySearchTree();
@@ -74,3 +102,6 @@ let tree = new BinarySearchTree();
 tree.insert(10)?.insert(15)?.insert(7)?.insert(9)?.insert(10);
 
 console.log(tree);
+
+console.log(tree.contains(100));
+console.log(tree.find(7));
