@@ -107,6 +107,17 @@ class BinarySearchTree<T> {
     }
     return visited;
   }
+
+  depthFirstSearchPreOrder(): Array<BinaryNode<T>> {
+    if (this.root === null) return [];
+    let visited: Array<BinaryNode<T>> = [];
+    (function traverse(node: BinaryNode<T>) {
+      visited.push(node);
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+    })(this.root);
+    return visited;
+  }
 }
 
 let tree = new BinarySearchTree();
@@ -114,3 +125,4 @@ let tree = new BinarySearchTree();
 tree.insert(10)?.insert(5)?.insert(3)?.insert(15)?.insert(20)?.insert(5);
 
 console.log(tree.breadthFirstSearch().map((el) => el.value));
+console.log(tree.depthFirstSearchPreOrder().map((el) => el.value));
