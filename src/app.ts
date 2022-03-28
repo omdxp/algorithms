@@ -34,12 +34,43 @@ class BinarySearchTree<T> {
   constructor() {
     this.root = null;
   }
+
+  insert(value: T): BinarySearchTree<T> | null {
+    let newNode = new BinaryNode(value);
+    if (this.root === null) {
+      this.root = newNode;
+      return this;
+    }
+    let current = this.root;
+    while (current) {
+      if (value > current.value) {
+        if (current.right === null) {
+          current.right = newNode;
+          break;
+        } else {
+          current = current.right;
+        }
+      } else if (value < current.value) {
+        if (current.left === null) {
+          current.left = newNode;
+          break;
+        } else {
+          current = current.left;
+        }
+      } else {
+        return null;
+      }
+    }
+    return this;
+  }
 }
 
 let tree = new BinarySearchTree();
-tree.root = new BinaryNode(10);
-tree.root.right = new BinaryNode(15);
-tree.root.left = new BinaryNode(7);
-tree.root.left.right = new BinaryNode(9);
+// tree.root = new BinaryNode(10);
+// tree.root.right = new BinaryNode(15);
+// tree.root.left = new BinaryNode(7);
+// tree.root.left.right = new BinaryNode(9);
+
+tree.insert(10)?.insert(15)?.insert(7)?.insert(9)?.insert(10);
 
 console.log(tree);
