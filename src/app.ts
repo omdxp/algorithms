@@ -1,85 +1,45 @@
-class SinglyNode<T> {
-  private _next: SinglyNode<T> | null;
-  public get next(): SinglyNode<T> | null {
-    return this._next;
+class BinaryNode<T> {
+  private _right: BinaryNode<T> | null;
+  public get right(): BinaryNode<T> | null {
+    return this._right;
   }
-  public set next(v: SinglyNode<T> | null) {
-    this._next = v;
+  public set right(v: BinaryNode<T> | null) {
+    this._right = v;
+  }
+
+  private _left: BinaryNode<T> | null;
+  public get left(): BinaryNode<T> | null {
+    return this._left;
+  }
+  public set left(v: BinaryNode<T> | null) {
+    this._left = v;
   }
 
   constructor(public value: T) {
     this.value = value;
+    this.right = null;
+    this.left = null;
   }
 }
 
-class Queue<T> {
-  private _head: SinglyNode<T> | null;
-  public get head(): SinglyNode<T> | null {
-    return this._head;
+class BinarySearchTree<T> {
+  private _root: BinaryNode<T> | null;
+  public get root(): BinaryNode<T> | null {
+    return this._root;
   }
-  public set head(v: SinglyNode<T> | null) {
-    this._head = v;
-  }
-
-  private _tail: SinglyNode<T> | null;
-  public get tail(): SinglyNode<T> | null {
-    return this._tail;
-  }
-  public set tail(v: SinglyNode<T> | null) {
-    this._tail = v;
-  }
-
-  private _size: number;
-  public get size(): number {
-    return this._size;
+  public set root(v: BinaryNode<T> | null) {
+    this._root = v;
   }
 
   constructor() {
-    this.head = null;
-    this.tail = null;
-    this._size = 0;
-  }
-
-  enqueue(value: T): SinglyNode<T> | null {
-    let newNode = new SinglyNode(value);
-    if (this.size === 0) {
-      this.head = newNode;
-      this.tail = newNode;
-    } else {
-      this.tail!.next = newNode;
-      this.tail = newNode;
-    }
-    this._size++;
-    return newNode;
-  }
-
-  dequeue(): SinglyNode<T> | null {
-    if (this.size === 0) return null;
-    let removedNode = this.head;
-    if (removedNode === this.tail) {
-      this.tail = null;
-    }
-    this.head = this.head!.next;
-    this._size--;
-    return removedNode;
-  }
-
-  print() {
-    let str = " -> ";
-    let current = this.head;
-    while (current) {
-      str += current.value + " -> ";
-      current = current.next;
-    }
-    str += "null";
-    console.log(str);
+    this.root = null;
   }
 }
 
-let queue = new Queue();
+let tree = new BinarySearchTree();
+tree.root = new BinaryNode(10);
+tree.root.right = new BinaryNode(15);
+tree.root.left = new BinaryNode(7);
+tree.root.left.right = new BinaryNode(9);
 
-queue.enqueue("First");
-queue.enqueue("Second");
-queue.dequeue();
-queue.print();
-console.log(queue.size);
+console.log(tree);
