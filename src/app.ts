@@ -1,24 +1,72 @@
-let stack = [];
+class SinglyNode<T> {
+  private _next: SinglyNode<T> | null;
+  public get next(): SinglyNode<T> | null {
+    return this._next;
+  }
+  public set next(v: SinglyNode<T> | null) {
+    this._next = v;
+  }
 
-stack.push("google");
-stack.push("instagram");
-stack.push("youtube");
+  constructor(public value: T) {
+    this.value = value;
+    this.next = null;
+  }
+}
 
-console.log(stack);
+class Stack<T> {
+  private _first: SinglyNode<T> | null;
+  public get first(): SinglyNode<T> | null {
+    return this._first;
+  }
+  public set first(v: SinglyNode<T> | null) {
+    this._first = v;
+  }
 
-stack.pop();
-stack.pop();
-stack.pop();
+  private _last: SinglyNode<T> | null;
+  public get last(): SinglyNode<T> | null {
+    return this._last;
+  }
+  public set last(v: SinglyNode<T> | null) {
+    this._last = v;
+  }
 
-console.log(stack);
+  private _size: number;
+  public get size(): number {
+    return this._size;
+  }
 
-stack.unshift("create new file");
-stack.unshift("resized file");
-stack.unshift("cloned out wrinkle");
+  constructor() {
+    this.first = null;
+    this.last = null;
+    this._size = 0;
+  }
 
-console.log(stack);
+  push(value: T): number {
+    let newNode = new SinglyNode(value);
+    if (this.size === 0) {
+      this.first = newNode;
+      this.last = newNode;
+    } else {
+      let prevFirst = this.first;
+      this.first = newNode;
+      this.first.next = prevFirst;
+    }
+    return ++this._size;
+  }
 
-stack.shift();
-stack.shift();
+  print() {
+    let current = this.first;
+    while (current) {
+      console.log(current.value);
+      current = current.next;
+    }
+  }
+}
 
+let stack = new Stack(); // LIFO
+
+stack.push(1);
+stack.push(2);
+stack.push(3);
+stack.print();
 console.log(stack);
