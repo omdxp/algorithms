@@ -39,6 +39,34 @@ class HashTable<T> {
     }
     return foundElement!;
   }
+
+  keys(): Array<string> | null {
+    if (this._keyMap.length === 0) return null;
+    let keys = [];
+    for (let i = 0; i < this._keyMap.length; i++) {
+      let current = this._keyMap[i];
+      if (current) {
+        for (let j = 0; j < current.length; j++) {
+          keys.push(current[j][0]);
+        }
+      }
+    }
+    return keys;
+  }
+
+  values(): Array<T> | null {
+    if (this._keyMap.length === 0) return null;
+    let values = [];
+    for (let i = 0; i < this._keyMap.length; i++) {
+      let current = this._keyMap[i];
+      if (current) {
+        for (let j = 0; j < current.length; j++) {
+          values.push(current[j][1]);
+        }
+      }
+    }
+    return values;
+  }
 }
 
 let hashTable = new HashTable(10);
@@ -54,3 +82,8 @@ console.log(hashTable.get("salmon"));
 console.log("----");
 
 console.log(hashTable.keyMap);
+
+console.log("----");
+
+console.log(hashTable.keys());
+console.log(hashTable.values());
