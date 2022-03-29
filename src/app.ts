@@ -27,10 +27,17 @@ class HashTable<T> {
     }
   }
 
-  get(key: string): Array<[string, T]> | null {
+  get(key: string): T | null {
     let hashedKey = this.hash(key);
     if (!this._keyMap[hashedKey]) return null;
-    return this._keyMap[hashedKey];
+    let foundElement: T;
+    for (let i = 0; i < this._keyMap[hashedKey].length; i++) {
+      if (this._keyMap[hashedKey][i][0] === key) {
+        foundElement = this._keyMap[hashedKey][i][1];
+        break;
+      }
+    }
+    return foundElement!;
   }
 }
 
