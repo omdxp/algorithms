@@ -1,89 +1,20 @@
-class HashTable<T> {
-  private _keyMap: Array<Array<[string, T]>>;
-  public get keyMap(): Array<Array<[string, T]>> {
-    return this._keyMap;
+class Graph<T extends string | number | symbol> {
+  private _adjacencyList: Partial<Record<T, Array<T>>>;
+  public get adjacencyList(): Partial<Record<T, Array<T>>> {
+    return this._adjacencyList;
   }
 
-  constructor(public size: number = 53) {
-    this._keyMap = new Array(size);
+  constructor() {
+    this._adjacencyList = {};
   }
 
-  private hash(key: string) {
-    let total = 0;
-    let WEIRED_PRIME = 31;
-    for (let i = 0; i < Math.min(key.length, 100); i++) {
-      let char = key[i];
-      let value = char.charCodeAt(0) - 96;
-      total = (total * WEIRED_PRIME + value) % this._keyMap.length;
-    }
-    return total;
-  }
-
-  set(key: string, value: T) {
-    let hashedKey = this.hash(key);
-    if (!this._keyMap[hashedKey]) this._keyMap[hashedKey] = [[key, value]];
-    else {
-      this._keyMap[hashedKey].push([key, value]);
-    }
-  }
-
-  get(key: string): T | null {
-    let hashedKey = this.hash(key);
-    if (!this._keyMap[hashedKey]) return null;
-    let foundElement: T;
-    for (let i = 0; i < this._keyMap[hashedKey].length; i++) {
-      if (this._keyMap[hashedKey][i][0] === key) {
-        foundElement = this._keyMap[hashedKey][i][1];
-        break;
-      }
-    }
-    return foundElement!;
-  }
-
-  keys(): Array<string> | null {
-    if (this._keyMap.length === 0) return null;
-    let keys = [];
-    for (let i = 0; i < this._keyMap.length; i++) {
-      let current = this._keyMap[i];
-      if (current) {
-        for (let j = 0; j < current.length; j++) {
-          keys.push(current[j][0]);
-        }
-      }
-    }
-    return keys;
-  }
-
-  values(): Array<T> | null {
-    if (this._keyMap.length === 0) return null;
-    let values = [];
-    for (let i = 0; i < this._keyMap.length; i++) {
-      let current = this._keyMap[i];
-      if (current) {
-        for (let j = 0; j < current.length; j++) {
-          values.push(current[j][1]);
-        }
-      }
-    }
-    return values;
+  addVertex(value: T) {
+    if (!this._adjacencyList[value]) this._adjacencyList[value] = [];
   }
 }
 
-let hashTable = new HashTable(10);
+let g = new Graph();
+g.addVertex("Tokyo");
+g.addVertex("San Francisco");
 
-hashTable.set("pink", 2);
-hashTable.set("blue", true);
-hashTable.set("salmon", "here");
-
-console.log(hashTable.get("pink"));
-console.log(hashTable.get("blue"));
-console.log(hashTable.get("salmon"));
-
-console.log("----");
-
-console.log(hashTable.keyMap);
-
-console.log("----");
-
-console.log(hashTable.keys());
-console.log(hashTable.values());
+console.log(g.adjacencyList);
