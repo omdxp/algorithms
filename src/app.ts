@@ -68,19 +68,39 @@ class Graph<T extends string | number | symbol> {
           this._adjacencyList[vertex2]!.includes(vertex1);
     return result;
   }
+
+  DFSRecursive(vertex: T): T[] | null {
+    if (Object.keys(this._adjacencyList).length === 0) return null;
+    let result: T[] = [];
+    let visited: Partial<Record<T, boolean>> = {};
+    const DFS = (vertex: T) => {
+      if (!vertex) return;
+      visited[vertex] = true;
+      result.push(vertex);
+      this._adjacencyList[vertex]?.forEach((v) => {
+        if (!visited.hasOwnProperty(v)) DFS(v);
+      });
+    };
+    DFS(vertex);
+    return result;
+  }
 }
 
 let g = new Graph();
-g.addVertex("Tokyo");
-g.addVertex("San Francisco");
-g.addVertex("Berlin");
+g.addVertex("A");
+g.addVertex("B");
+g.addVertex("C");
+g.addVertex("D");
+g.addVertex("E");
+g.addVertex("F");
 
-g.addEdge("Tokyo", "San Francisco", "undirect"); // Undirected graph
-g.addEdge("San Francisco", "Berlin", "direct");
-
-// g.removeEdge("Tokyo", "San Francisco", "undirect");
-// g.removeEdge("San Francisco", "Berlin", "direct");
-
-g.removeVertex("Tokyo");
+g.addEdge("A", "B", "undirect");
+g.addEdge("A", "C", "undirect");
+g.addEdge("B", "D", "undirect");
+g.addEdge("C", "E", "undirect");
+g.addEdge("D", "E", "undirect");
+g.addEdge("D", "F", "undirect");
+g.addEdge("E", "F", "undirect");
 
 console.log(g.adjacencyList);
+console.log(g.DFSRecursive("E"));
