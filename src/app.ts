@@ -103,6 +103,25 @@ class Graph<T extends string | number | symbol> {
     }
     return result;
   }
+
+  BFSIterative(vertex: T): T[] | null {
+    if (Object.keys(this._adjacencyList).length === 0) return null;
+    let result: T[] = [];
+    let queue: T[] = [vertex];
+    let visited: Partial<Record<T, boolean>> = {};
+    visited[vertex] = true;
+    while (queue.length) {
+      vertex = queue.shift()!;
+      result.push(vertex);
+      this._adjacencyList[vertex]?.forEach((v) => {
+        if (!visited[v]) {
+          visited[v] = true;
+          queue.push(v);
+        }
+      });
+    }
+    return result;
+  }
 }
 
 let g = new Graph();
@@ -124,3 +143,4 @@ g.addEdge("E", "F", "undirect");
 console.log(g.adjacencyList);
 console.log(g.DFSRecursive("A"));
 console.log(g.DFSIterative("A"));
+console.log(g.BFSIterative("A"));
