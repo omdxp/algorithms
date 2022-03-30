@@ -84,6 +84,25 @@ class Graph<T extends string | number | symbol> {
     DFS(vertex);
     return result;
   }
+
+  DFSIterative(vertex: T): T[] | null {
+    if (Object.keys(this._adjacencyList).length === 0) return null;
+    let result: T[] = [];
+    let stack: T[] = [vertex];
+    let visited: Partial<Record<T, boolean>> = {};
+    visited[vertex] = true;
+    while (stack.length) {
+      vertex = stack.pop()!;
+      result.push(vertex);
+      this._adjacencyList[vertex]?.forEach((v) => {
+        if (!visited.hasOwnProperty(v)) {
+          visited[v] = true;
+          stack.push(v);
+        }
+      });
+    }
+    return result;
+  }
 }
 
 let g = new Graph();
@@ -103,4 +122,5 @@ g.addEdge("D", "F", "undirect");
 g.addEdge("E", "F", "undirect");
 
 console.log(g.adjacencyList);
-console.log(g.DFSRecursive("E"));
+console.log(g.DFSRecursive("A"));
+console.log(g.DFSIterative("A"));
