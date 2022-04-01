@@ -1,24 +1,21 @@
-function fib(n: number, memo: number[] = []): number {
-  if (memo[n]) return memo[n];
-  if (n <= 2) return 1;
-  let res = fib(n - 1, memo) + fib(n - 2, memo);
-  memo[n] = res;
-  return res;
-}
-// O(2^n) well to be more precise O(1.6^n) for normal fibonacci function
-console.time("memo");
-console.log(fib(1000)); // O(n); possible of stackoverflow (space complexity is worse)
-console.timeEnd("memo");
-
-// tabulation version
-function fibTab(n: number) {
-  if (n <= 2) return 1;
-  let fibNums = [0, 1, 1];
-  for (let i = 3; i <= n; i++) {
-    fibNums[i] = fibNums[i - 1] + fibNums[i - 2];
+function radixSort(array: number[]) {
+  if (array.length < 2) return array;
+  let max = array[0];
+  for (let i = 1; i < array.length; i++) {
+    if (array[i] > max) {
+      max = array[i];
+    }
   }
-  return fibNums[n];
+  const iterationCount = max.toString().length;
+  for (let digit = 0; digit < iterationCount; digit++) {
+    const bucket: number[][] = Array.from({ length: 10 }, () => []);
+    for (let i = 0; i < array.length; i++) {
+      const digitValue = Math.floor(array[i] / Math.pow(10, digit)) % 10;
+      bucket[digitValue].push(array[i]);
+    }
+    array = [].concat(...bucket);
+  }
+  return array;
 }
-console.time("table");
-console.log(fibTab(1000)); // O(n) but better for space complexity
-console.timeEnd("table");
+
+console.log(radixSort([745, 34, 24, 36, 98]));
