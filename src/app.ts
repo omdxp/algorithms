@@ -1,6 +1,10 @@
-class Graph<T extends string | number | symbol> {
-  private _adjacencyList: Partial<Record<T, Array<T>>>;
-  public get adjacencyList(): Partial<Record<T, Array<T>>> {
+class WeightedGraph<T extends string | number | symbol> {
+  private _adjacencyList: Partial<
+    Record<T, Array<{ node: T; weight: number }>>
+  >;
+  public get adjacencyList(): Partial<
+    Record<T, Array<{ node: T; weight: number }>>
+  > {
     return this._adjacencyList;
   }
 
@@ -8,139 +12,23 @@ class Graph<T extends string | number | symbol> {
     this._adjacencyList = {};
   }
 
-  addVertex(value: T) {
-    if (!this._adjacencyList[value]) this._adjacencyList[value] = [];
+  addVertex(vertex: T) {
+    if (!this._adjacencyList[vertex]) this._adjacencyList[vertex] = [];
   }
 
-  addEdge(vertex1: T, vertex2: T, type: "direct" | "undirect") {
-    if (!this.checkVertices(vertex1, vertex2)) return;
-    this._adjacencyList[vertex1]?.push(vertex2);
-    type === "undirect" && this._adjacencyList[vertex2]?.push(vertex1);
-  }
-
-  removeEdge(vertex1: T, vertex2: T, type: "direct" | "undirect") {
-    if (!this.checkEdge(vertex1, vertex2, type)) return;
-    this._adjacencyList[vertex1] = this._adjacencyList[vertex1]?.filter(
-      (v) => v !== vertex2
-    );
-    type === "undirect"
-      ? (this._adjacencyList[vertex2] = this._adjacencyList[vertex2]?.filter(
-          (v) => v !== vertex1
-        ))
-      : null;
-  }
-
-  removeVertex(vertex: T) {
-    if (!this.checkVertex(vertex)) return;
-    while (this._adjacencyList[vertex]?.length) {
-      const adjacentVertex = this._adjacencyList[vertex]!.pop()!;
-      this.removeEdge(adjacentVertex, vertex, "direct");
-    }
-    delete this._adjacencyList[vertex];
-  }
-
-  private checkVertices(vertex1: T, vertex2: T): boolean {
-    let foundVertex1 = Object.prototype.hasOwnProperty.call(
-      this._adjacencyList,
-      vertex1
-    );
-    let foundVertex2 = Object.prototype.hasOwnProperty.call(
-      this._adjacencyList,
-      vertex2
-    );
-    return foundVertex1 && foundVertex2;
-  }
-
-  private checkVertex(vertex: T): boolean {
-    return Object.prototype.hasOwnProperty.call(this._adjacencyList, vertex);
-  }
-
-  private checkEdge(
-    vertex1: T,
-    vertex2: T,
-    type: "direct" | "undirect"
-  ): boolean {
-    if (!this.checkVertices(vertex1, vertex2)) return false;
-    let result =
-      type === "direct"
-        ? this._adjacencyList[vertex1]!.includes(vertex2)
-        : this._adjacencyList[vertex1]!.includes(vertex2) &&
-          this._adjacencyList[vertex2]!.includes(vertex1);
-    return result;
-  }
-
-  DFSRecursive(vertex: T): T[] | null {
-    if (Object.keys(this._adjacencyList).length === 0) return null;
-    let result: T[] = [];
-    let visited: Partial<Record<T, boolean>> = {};
-    const DFS = (vertex: T) => {
-      if (!vertex) return;
-      visited[vertex] = true;
-      result.push(vertex);
-      this._adjacencyList[vertex]?.forEach((v) => {
-        if (!visited.hasOwnProperty(v)) DFS(v);
-      });
-    };
-    DFS(vertex);
-    return result;
-  }
-
-  DFSIterative(vertex: T): T[] | null {
-    if (Object.keys(this._adjacencyList).length === 0) return null;
-    let result: T[] = [];
-    let stack: T[] = [vertex];
-    let visited: Partial<Record<T, boolean>> = {};
-    visited[vertex] = true;
-    while (stack.length) {
-      vertex = stack.pop()!;
-      result.push(vertex);
-      this._adjacencyList[vertex]?.forEach((v) => {
-        if (!visited.hasOwnProperty(v)) {
-          visited[v] = true;
-          stack.push(v);
-        }
-      });
-    }
-    return result;
-  }
-
-  BFSIterative(vertex: T): T[] | null {
-    if (Object.keys(this._adjacencyList).length === 0) return null;
-    let result: T[] = [];
-    let queue: T[] = [vertex];
-    let visited: Partial<Record<T, boolean>> = {};
-    visited[vertex] = true;
-    while (queue.length) {
-      vertex = queue.shift()!;
-      result.push(vertex);
-      this._adjacencyList[vertex]?.forEach((v) => {
-        if (!visited[v]) {
-          visited[v] = true;
-          queue.push(v);
-        }
-      });
-    }
-    return result;
+  addEdge(v1: T, v2: T, weight: number) {
+    this._adjacencyList[v1]?.push({ node: v2, weight });
+    this._adjacencyList[v2]?.push({ node: v1, weight });
   }
 }
 
-let g = new Graph();
+let g = new WeightedGraph();
 g.addVertex("A");
 g.addVertex("B");
 g.addVertex("C");
-g.addVertex("D");
-g.addVertex("E");
-g.addVertex("F");
 
-g.addEdge("A", "B", "undirect");
-g.addEdge("A", "C", "undirect");
-g.addEdge("B", "D", "undirect");
-g.addEdge("C", "E", "undirect");
-g.addEdge("D", "E", "undirect");
-g.addEdge("D", "F", "undirect");
-g.addEdge("E", "F", "undirect");
+g.addEdge("A", "B", 9);
+g.addEdge("A", "C", 5);
+g.addEdge("B", "C", 7);
 
 console.log(g.adjacencyList);
-console.log(g.DFSRecursive("A"));
-console.log(g.DFSIterative("A"));
-console.log(g.BFSIterative("A"));
