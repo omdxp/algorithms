@@ -1,3 +1,5 @@
+import { PriorityQueue } from "./priority-queue";
+
 class WeightedGraph<T extends string | number | symbol> {
   private _adjacencyList: Partial<
     Record<T, Array<{ node: T; weight: number }>>
@@ -26,9 +28,17 @@ let g = new WeightedGraph();
 g.addVertex("A");
 g.addVertex("B");
 g.addVertex("C");
+g.addVertex("D");
+g.addVertex("E");
+g.addVertex("F");
 
-g.addEdge("A", "B", 9);
-g.addEdge("A", "C", 5);
-g.addEdge("B", "C", 7);
+g.addEdge("A", "B", 4);
+g.addEdge("A", "C", 2);
+g.addEdge("B", "E", 3);
+g.addEdge("E", "D", 4);
+g.addEdge("E", "F", 1);
+g.addEdge("F", "D", 1);
+g.addEdge("F", "C", 4);
+g.addEdge("D", "C", 2);
 
 console.log(g.adjacencyList);
