@@ -1,26 +1,26 @@
-let rows = 5;
-let count = 0;
-let count1 = 0;
-let k = 0;
-let str = "";
-for (let i = 1; i <= rows; ++i) {
-  for (let space = 1; space <= rows - i; ++space) {
-    str += "  ";
-    ++count;
+function countingSort(array: number[]): number[] {
+  let result: number[] = [];
+  if (array.some((value) => value < 0)) return result;
+  let max = array[0];
+  for (let i = 1; i < array.length; i++) {
+    if (array[i] > max) max = array[i];
   }
-
-  while (k !== 2 * i - 1) {
-    if (count <= rows - 1) {
-      str += `${i + k} `;
-      ++count;
-    } else {
-      ++count1;
-      str += `${i + k - 2 * count1} `;
+  const countingArray = new Array(max + 1);
+  for (let value of array) {
+    if (!countingArray[value]) {
+      countingArray[value] = 0;
     }
-    ++k;
+    countingArray[value]++;
   }
-  count1 = count = k = 0;
-  str += "\n";
+  for (let i = 0; i < countingArray.length; i++) {
+    while (countingArray[i] > 0) {
+      result.push(i);
+      countingArray[i]--;
+    }
+  }
+  return result;
 }
 
-console.log(str);
+const unsortedArray = [1, 0, 3, 1, 3, 1];
+const sortedArray = countingSort(unsortedArray);
+console.log(sortedArray);
