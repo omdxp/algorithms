@@ -1,26 +1,21 @@
-function countingSort(array: number[]): number[] {
-  let result: number[] = [];
-  if (array.some((value) => value < 0)) return result;
+function countingSort(array: number[]) {
+  if (array.some((value) => value < 0)) return null;
   let max = array[0];
-  for (let i = 1; i < array.length; i++) {
-    if (array[i] > max) max = array[i];
+  for (let i = 1; i < array.length; i++) if (array[i] > max) max = array[i];
+  let countArray = Array.from({ length: max + 1 }, () => 0);
+  for (let i = 0; i < array.length; i++) {
+    countArray[array[i]]++;
   }
-  const countingArray = new Array(max + 1);
-  for (let value of array) {
-    if (!countingArray[value]) {
-      countingArray[value] = 0;
-    }
-    countingArray[value]++;
+  for (let i = 1; i < countArray.length; i++) {
+    countArray[i] = countArray[i - 1] + countArray[i];
   }
-  for (let i = 0; i < countingArray.length; i++) {
-    while (countingArray[i] > 0) {
-      result.push(i);
-      countingArray[i]--;
-    }
+  let result = Array.from({ length: array.length });
+  for (let i = array.length - 1; i >= 0; i--) {
+    result[--countArray[array[i]]] = array[i];
   }
   return result;
 }
 
-const unsortedArray = [1, 0, 3, 1, 3, 1];
+const unsortedArray = [1, 5, 3, 9, 0, 11, 2, 2, 0, 4, 7];
 const sortedArray = countingSort(unsortedArray);
 console.log(sortedArray);
