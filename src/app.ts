@@ -1,24 +1,34 @@
-// Time complexity depends on the gap, at worst case O(n^2)
-function shellSort(array: number[]) {
-  for (
-    let gap = Math.floor(array.length / 2);
-    gap >= 1;
-    gap = Math.floor(gap / 2)
-  ) {
-    for (let j = gap; j < array.length; j++) {
-      for (let i = j - gap; i >= 0; i -= gap) {
-        if (array[i + gap] > array[i]) break;
-        else {
-          const tmp = array[i + gap];
-          array[i + gap] = array[i];
-          array[i] = tmp;
-        }
-      }
+function merge(left: number[], right: number[]) {
+  let arr: number[] = [];
+  // Break out of loop if any one of the array gets empty
+  while (left.length && right.length) {
+    // Pick the smaller among the smallest element of left and right sub arrays
+    if (left[0] < right[0]) {
+      arr.push(left.shift()!);
+    } else {
+      arr.push(right.shift()!);
     }
   }
+
+  // Concatenating the leftover elements
+  // (in case we didn't go through the entire left or right array)
+  return [...arr, ...left, ...right];
 }
 
-const unsortedArray = [23, 29, 15, 19, 31, 7, 9, 5, 2];
-shellSort(unsortedArray);
+// O(n log(n))
+function mergeSort(array: number[]): number[] {
+  const half = array.length / 2;
 
-console.log(unsortedArray);
+  // Base case or terminating case
+  if (array.length < 2) {
+    return array;
+  }
+
+  const left = array.splice(0, half);
+  return merge(mergeSort(left), mergeSort(array));
+}
+
+const unsortedArray = [15, 5, 24, 8, 1, 3, 16, 10, 20];
+const sortedArray = mergeSort(unsortedArray);
+
+console.log(sortedArray);
