@@ -1,15 +1,22 @@
-function isPrime(n: number) {
-  // T = 1 + n - 3 + 1 + 1 = n
+function min(numbers: number[]) {
+  // T = 1 + 1 + n + 1 = n + 3 = n
   // T(n) = O(n)
-  for (let i = 2; i < n; i++) {
+  let result = numbers[0]; // 1
+  for (let i = 1; i < numbers.length; i++) {
     // 1
-    if (n % i === 0) {
-      // n - 3
-      return false; // 1
+    if (numbers[i] <= result) {
+      // n
+      result = numbers[i];
     }
   }
-  return true; // 1
+  return result; // 1
 }
 
-console.log(isPrime(9));
-console.log(isPrime(5));
+function isEven(n: number) {
+  // T = 1
+  // T(n) = O(n)
+  return n % 2 === 0; // 1
+}
+
+console.log(min([4, 3, 2, 7, 8]));
+console.log(isEven(4));
