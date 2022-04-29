@@ -1,22 +1,21 @@
-function min(numbers: number[]) {
-  // T = 1 + 1 + n + 1 = n + 3 = n
-  // T(n) = O(n)
-  let result = numbers[0]; // 1
-  for (let i = 1; i < numbers.length; i++) {
-    // 1
-    if (numbers[i] <= result) {
-      // n
-      result = numbers[i];
-    }
+function isPowerOfTwo(n: number) {
+  if (n < 1) {
+    return false;
   }
-  return result; // 1
+  let devidedNumber = n;
+  while (devidedNumber !== 1) {
+    if (devidedNumber % 2 !== 0) {
+      return false;
+    }
+    devidedNumber /= 2;
+  }
+  return true;
 }
 
-function isEven(n: number) {
-  // T = 1
-  // T(n) = O(n)
-  return n % 2 === 0; // 1
-}
+// Best Case: O(1) (n = 13)
+// Worst Case: O(log(n))
 
-console.log(min([4, 3, 2, 7, 8]));
-console.log(isEven(4));
+console.log(isPowerOfTwo(8));
+console.log(isPowerOfTwo(5));
+console.log(isPowerOfTwo(16));
+console.log(isPowerOfTwo(13));
