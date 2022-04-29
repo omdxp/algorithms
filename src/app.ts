@@ -1,14 +1,15 @@
-function fibonacci(n: number) {
-  // T = 1 + 1 + 1 + 1 + n - 2 = n + 2 = n
-  // O(n)
-  let sequence: number[] = []; // 1
-  sequence[0] = 1; // 1
-  sequence[1] = 1; // 1
-  for (let i = 2; i <= n; i++) {
+function isPrime(n: number) {
+  // T = 1 + n - 3 + 1 + 1 = n
+  // T(n) = O(n)
+  for (let i = 2; i < n; i++) {
     // 1
-    sequence[i] = sequence[i - 1] + sequence[i - 2]; // n - 2
+    if (n % i === 0) {
+      // n - 3
+      return false; // 1
+    }
   }
-  return sequence[n]; // 1
+  return true; // 1
 }
 
-console.log(fibonacci(4));
+console.log(isPrime(9));
+console.log(isPrime(5));
