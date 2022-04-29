@@ -1,19 +1,14 @@
-// T(n) = O(logn)
-function binarySearch(arr: number[], target: number) {
-  let lower = 0;
-  let upper = arr.length - 1;
-
-  while (lower <= upper) {
-    const mid = lower + Math.floor((upper - lower) / 2);
-
-    if (target === arr[mid]) return mid;
-
-    if (target < arr[mid]) upper = mid - 1;
-    else lower = mid + 1;
+function fibonacci(n: number) {
+  // T = 1 + 1 + 1 + 1 + n - 2 = n + 2 = n
+  // O(n)
+  let sequence: number[] = []; // 1
+  sequence[0] = 1; // 1
+  sequence[1] = 1; // 1
+  for (let i = 2; i <= n; i++) {
+    // 1
+    sequence[i] = sequence[i - 1] + sequence[i - 2]; // n - 2
   }
-
-  return -1;
+  return sequence[n]; // 1
 }
 
-const values = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-console.log(binarySearch(values, 4));
+console.log(fibonacci(4));
